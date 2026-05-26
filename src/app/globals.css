@@ -1,0 +1,261 @@
+/* ─── Clera Brand Tokens ─── */
+:root {
+  --orange:   #E8651A;
+  --brown:    #2C1810;
+  --cream:    #FAF7F2;
+  --beige:    #F0E6D3;
+  --sand:     #E0D9CF;
+
+  --font-serif:   'Archivo Black', Georgia, "Times New Roman", serif;
+  --font-sans:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--brown);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar          { width: 4px; }
+::-webkit-scrollbar-track    { background: var(--cream); }
+::-webkit-scrollbar-thumb    { background: var(--orange); border-radius: 2px; }
+
+/* ─── Marquee animation ─── */
+@keyframes clera-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.clera-marquee-track {
+  animation: clera-marquee 28s linear infinite;
+}
+.clera-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Ingredient image ring ─── */
+.clera-ring {
+  border: 1px solid rgba(250, 247, 242, 0.15);
+}
+
+/* ─── Nav dot ─── */
+.clera-dot {
+  width:  7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ─── GSAP animation helpers ────────────────────────────────────────────────
+   Elements that will be entrance-animated start hidden.
+   GSAP overrides these once it initialises.
+   The noscript rule restores visibility when JS is disabled.
+────────────────────────────────────────────────────────────────────────── */
+.g-hide {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Restore visibility if JS never ran */
+@media (scripting: none) {
+  .g-hide { opacity: 1 !important; transform: none !important; }
+}
+
+/* Respect reduced-motion preference: skip transforms, keep fades short */
+@media (prefers-reduced-motion: reduce) {
+  .g-hide { transform: none !important; }
+}
+
+/* ─── Smooth section transitions ──────────────────────────────────────── */
+section {
+  position: relative;           /* gives GSAP a clean stacking context */
+}
+
+/* ─── Hero load-in line ──────────────────────────────────────────────── */
+.hero-line {
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* ─── Footer link hover (CSS-only, no JS needed) ─────────────────────── */
+.clera-footer-link        { color: rgba(250,247,242,0.4); }
+.clera-footer-link:hover  { color: rgba(250,247,242,0.85); }
+
+/* ─── Navbar ──────────────────────────────────────────────────────────── */
+.clera-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  font-family: var(--font-sans);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, border-color 0.4s ease,
+              backdrop-filter 0.4s ease;
+}
+.clera-nav--scrolled {
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom-color: rgba(44,24,16,0.08);
+}
+
+.clera-nav__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clera-nav__links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  flex: 1;
+}
+
+.clera-nav__link {
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.2s, color 0.4s;
+}
+.clera-nav--scrolled .clera-nav__link { color: var(--brown); }
+.clera-nav__link:hover                { opacity: 1; }
+
+.clera-nav__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+}
+.clera-nav__logo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.clera-nav__logo-text {
+  font-weight: 200;
+  font-size: 18px;
+  letter-spacing: 0.32em;
+  text-transform: lowercase;
+  color: var(--cream);
+  transition: color 0.4s;
+  line-height: 1;
+}
+.clera-nav--scrolled .clera-nav__logo-text { color: var(--brown); }
+
+.clera-nav__right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.clera-nav__cta {
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  border: 1px solid rgba(250,247,242,0.4);
+  padding: 8px 20px;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.clera-nav--scrolled .clera-nav__cta {
+  color: var(--brown);
+  border-color: rgba(44,24,16,0.3);
+}
+.clera-nav__cta:hover {
+  background: var(--orange);
+  color: var(--cream) !important;
+  border-color: var(--orange) !important;
+}
+
+@media (max-width: 768px) {
+  .clera-nav__links          { display: none; }
+  .clera-nav__inner          { padding: 0 20px; }
+}
+
+/* ─── Ingredients section ────────────────────────────────────────────── */
+.ing-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 64px 200px;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(40px, 5vh, 60px) 0;
+}
+.ing-row-grid--rtl { direction: rtl; }
+
+@media (max-width: 640px) {
+  .ing-row-grid {
+    display: flex;
+    flex-direction: column;
+    direction: ltr;
+    gap: 28px;
+  }
+}
+
+/* ─── Newsletter form ────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .nl-form         { flex-direction: column; border: none !important; box-shadow: none !important; }
+  .nl-form-input   { border: 1px solid rgba(44,24,16,0.2) !important; background: #fff !important; }
+  .nl-form-submit  { width: 100%; }
+}
+
+/* ─── Hero → SplitSection gradient fade ─────────────────────────────── */
+.hero-fade {
+  height: 120px;
+  margin-top: -120px;
+  background: linear-gradient(to bottom, transparent 0%, #FAF7F2 100%);
+  position: relative;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ─── Circle section orbital labels ─────────────────────────────────── */
+@media (max-width: 860px) {
+  .circ-orbit {
+    transform: scale(0.72);
+    transform-origin: top center;
+    margin-bottom: -235px;   /* 840 × (1 − 0.72) */
+  }
+}
+@media (max-width: 560px) {
+  .circ-orbit {
+    transform: scale(0.50);
+    margin-bottom: -420px;   /* 840 × (1 − 0.50) */
+  }
+}
