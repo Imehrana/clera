@@ -48,7 +48,7 @@ export default function FullWidthBanner({
   useEffect(() => {
     if (galleryImages && galleryImages.length > 0) return; // no animations in gallery mode
 
-    let ctx: import("gsap").Context | undefined;
+    let ctx: { revert(): void } | undefined;
 
     (async () => {
       const g = await loadGsap();

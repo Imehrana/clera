@@ -30,7 +30,7 @@ export default function Newsletter({
   const [focused, setFocused]     = useState(false);
 
   useEffect(() => {
-    let ctx: import("gsap").Context | undefined;
+    let ctx: { revert(): void } | undefined;
 
     (async () => {
       const g = await loadGsap();
